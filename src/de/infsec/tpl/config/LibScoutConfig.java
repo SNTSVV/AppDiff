@@ -95,6 +95,9 @@ public class LibScoutConfig {
 
     public static File libApiCompatDir = null;
 
+    // if true uses the full code for hashing methods, otherwise signatures only
+    public static boolean useCodeHashing = false;
+
     // package tree
     public static class PckgTree {
         public static boolean useAsciiRendering = false;

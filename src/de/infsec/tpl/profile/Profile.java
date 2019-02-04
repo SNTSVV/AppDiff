@@ -21,7 +21,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import de.infsec.tpl.config.LibScoutConfig;
 import de.infsec.tpl.hashtree.HashTree;
+import de.infsec.tpl.hashtree.comp.clazz.DefaultClassNodeComp;
+import de.infsec.tpl.hashtree.comp.method.CodeMethodNodeComp;
+import de.infsec.tpl.hashtree.comp.pckg.DefaultPackageNodeComp;
 import de.infsec.tpl.modules.libprofiler.LibraryProfiler;
 import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
@@ -66,7 +70,13 @@ public abstract class Profile implements Serializable {
 		
 	
 	public static List<HashTree> generateHashTrees(final IClassHierarchy cha) {
-		HashTree ht = new HashTree();
+		HashTree ht;
+
+		if (LibScoutConfig.useCodeHashing)
+			ht = new HashTree();
+		else
+			ht = new HashTree(new DefaultPackageNodeComp(), new DefaultClassNodeComp(), new CodeMethodNodeComp(false));
+
 		ht.generate(cha);
 		return Collections.singletonList(ht);
 	}

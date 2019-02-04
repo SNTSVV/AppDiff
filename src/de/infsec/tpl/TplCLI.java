@@ -74,6 +74,9 @@ public class TplCLI {
 		static final String ARG_MUTE = "m";
 		static final String ARGL_MUTE = "mute";
 
+		static final String ARG_CODE_HASHING = "h";
+		static final String ARGL_CODE_HASHING = "code-hashing";
+
 		static final String ARG_NO_PARTIAL_MATCHING = "n";
 		static final String ARGL_NO_PARTIAL_MATCHING = "no-partial-matching";
 
@@ -228,8 +231,13 @@ public class TplCLI {
 					
 				LibScoutConfig.profilesDir = profilesDir;
 			}
-			
-			
+
+
+			// enable code hashing for methods
+			if (checkOptionalUse(cmd, CliArgs.ARG_CODE_HASHING, LibScoutConfig.OpMode.MATCH, LibScoutConfig.OpMode.UPDATABILITY, LibScoutConfig.OpMode.DIFF)) {
+				LibScoutConfig.useCodeHashing = true;
+			}
+
 			// disable partial matching (full lib matching only)
 			if (checkOptionalUse(cmd, CliArgs.ARG_NO_PARTIAL_MATCHING, LibScoutConfig.OpMode.MATCH, LibScoutConfig.OpMode.UPDATABILITY)) {
 				LibScoutConfig.noPartialMatching = true;
@@ -441,7 +449,13 @@ public class TplCLI {
 	        .withLongOpt(CliArgs.ARGL_MUTE)
 	        .withDescription("disable file and console logging, takes precedence over -d")
 	        .create(CliArgs.ARG_MUTE));
-		
+
+		options.addOption(OptionBuilder.withArgName("value")
+			.isRequired(false)
+			.withLongOpt(CliArgs.ARGL_CODE_HASHING)
+			.withDescription("use full code for method hashing")
+			.create(CliArgs.ARG_CODE_HASHING));
+
 		options.addOption(OptionBuilder.withArgName("directory")
 			.hasArgs(1)
 	        .isRequired(false)

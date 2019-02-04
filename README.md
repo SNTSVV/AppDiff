@@ -15,6 +15,7 @@ AppDiff finds code changes across two versions of an app, i.e. changes in method
 Refer to <a href="https://developer.android.com/studio/">https://developer.android.com/studio/</a> for download instructions.
  * By default, LibScout logs to stdout. Use the -d switch to redirect output to files. The -m switch disables any text output. Depending on the operation mode (see below), LibScout's results can be written to disk in JSON format or JAVA serialization.
  * Repo structure in a nutshell:<br>
+
 <pre><code>
 |_ gradlew / gradlew.bat (gradle wrappers to generate runnable LibScout.jar)
 |_ assets
@@ -25,7 +26,7 @@ Refer to <a href="https://developer.android.com/studio/">https://developer.andro
 |_ data
 |    |_ app-version-codes.csv (Google Play app packages with valid version codes)
 |_ lib
-|    pre-compiled WALA libs, Android axml
+|    Android axml
 |_ scripts
 |    |_ library-specs (pre-defined library specs)
 |    |_ library-scraper.py   (scraper for mvn-central, jcenter, custom mvn)
@@ -37,7 +38,8 @@ Refer to <a href="https://developer.android.com/studio/">https://developer.andro
 ### Application Version Diff (-o diff)
 
 AppDiff takes two (subsequent) versions of the same app and reports on any changes in the bytecode, these includes changes in methods with the same signature, addition/removal of methods/classes/packages.
-The log output further visualizes the changes in a diff tree. All changes are additionally written to a json file (-j switch).
+The log output further visualizes the changes in a diff tree. All changes are additionally written to a json file (-j switch). By default, it computes a method hash over the method signature. Use the -h switch
+to enable method hashing over the entire code.
 
-<pre>java -jar LibScout.jar -o diff -a <i>android_sdk_jar</i> -j <i>json_dir</i> <i>path_to_apk_old_version<i> <i>path_to_apk_new_version<i> </pre>
+<pre>java -jar appdiff.jar -o diff -a <i>android_sdk_jar</i> [-h] -j <i>json_dir</i> <i>path_to_apk_old_version<i> <i>path_to_apk_new_version<i> </pre>
 
