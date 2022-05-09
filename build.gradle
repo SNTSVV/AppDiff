@@ -45,7 +45,8 @@ jar {
                          'Tool': 'LibScout',
                       'Version': '2.3.2'
     }
-
+    
+    duplicatesStrategy = 'exclude'
     // build fat jar
     from {
         configurations.provided.collect { it.isDirectory() ? it : zipTree(it) }
